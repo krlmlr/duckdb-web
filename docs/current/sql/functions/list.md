@@ -22,10 +22,10 @@ title: List Functions
 | [`list1 <@ list2`](#list_has_alllist1-list2) | Alias for `list_has_all`. |
 | [`list1 @> list2`](#list_has_alllist1-list2) | Alias for `list_has_all`. |
 | [`arg1 || arg2`](#arg1--arg2) | Concatenates two strings, lists, or blobs. Any `NULL` input results in `NULL`. See also [`concat(arg1, arg2, ...)`]({% link docs/current/sql/functions/text.md %}#concatvalue-) and [`list_concat(list1, list2, ...)`]({% link docs/current/sql/functions/list.md %}#list_concatlist_1--list_n). |
-| [`aggregate(list, function_name, ...)`](#list_aggregatelist-function_name-) | Alias for `list_aggregate`. |
+| [`aggregate(list, function_name)`](#list_aggregatelist-function_name) | Alias for `list_aggregate`. |
 | [`apply(list, lambda(x))`](#list_transformlist-lambdax) | Alias for `list_transform`. |
-| [`array_aggr(list, function_name, ...)`](#list_aggregatelist-function_name-) | Alias for `list_aggregate`. |
-| [`array_aggregate(list, function_name, ...)`](#list_aggregatelist-function_name-) | Alias for `list_aggregate`. |
+| [`array_aggr(list, function_name)`](#list_aggregatelist-function_name) | Alias for `list_aggregate`. |
+| [`array_aggregate(list, function_name)`](#list_aggregatelist-function_name) | Alias for `list_aggregate`. |
 | [`array_append(list, element)`](#list_appendlist-element) | Alias for `list_append`. |
 | [`array_apply(list, lambda(x))`](#list_transformlist-lambdax) | Alias for `list_transform`. |
 | [`array_cat(list_1, ..., list_n)`](#list_concatlist_1--list_n) | Alias for `list_concat`. |
@@ -34,7 +34,7 @@ title: List Functions
 | [`array_distinct(list)`](#list_distinctlist) | Alias for `list_distinct`. |
 | [`array_extract(list, index)`](#array_extractlist-index) | Extracts the `index`th (1-based) value from the `list`. |
 | [`array_filter(list, lambda(x))`](#list_filterlist-lambdax) | Alias for `list_filter`. |
-| [`array_grade_up(list[, col1][, col2])`](#list_grade_uplist-col1-col2) | Alias for `list_grade_up`. |
+| [`array_grade_up(list)`](#list_grade_uplist) | Alias for `list_grade_up`. |
 | [`array_has(list, element)`](#list_containslist-element) | Alias for `list_contains`. |
 | [`array_has_all(list1, list2)`](#list_has_alllist1-list2) | Alias for `list_has_all`. |
 | [`array_has_any(list1, list2)`](#list_has_anylist1-list2) | Alias for `list_has_any`. |
@@ -47,14 +47,14 @@ title: List Functions
 | [`array_prepend(element, list)`](#list_prependelement-list) | Alias for `list_prepend`. |
 | [`array_push_back(list, element)`](#list_appendlist-element) | Alias for `list_append`. |
 | [`array_push_front(list, element)`](#array_push_frontlist-element) | Prepends `element` to `list`. |
-| [`array_reduce(list, lambda(x,y)[, initial_value])`](#list_reducelist-lambdaxy-initial_value) | Alias for `list_reduce`. |
-| [`array_resize(list, size[[, value]])`](#list_resizelist-size-value) | Alias for `list_resize`. |
+| [`array_reduce(list, lambda(x, y), initial_value)`](#list_reducelist-lambdax-y-initial_value) | Alias for `list_reduce`. |
+| [`array_resize(list, size[, value])`](#list_resizelist-size-value) | Alias for `list_resize`. |
 | [`array_reverse(list)`](#list_reverselist) | Alias for `list_reverse`. |
-| [`array_reverse_sort(list[, col1])`](#list_reverse_sortlist-col1) | Alias for `list_reverse_sort`. |
+| [`array_reverse_sort(list)`](#list_reverse_sortlist) | Alias for `list_reverse_sort`. |
 | [`array_select(value_list, index_list)`](#list_selectvalue_list-index_list) | Alias for `list_select`. |
 | [`array_slice(list, begin, end)`](#list_slicelist-begin-end) | Alias for `list_slice`. |
 | [`array_slice(list, begin, end, step)`](#list_slicelist-begin-end-step) | Alias for `list_slice`. |
-| [`array_sort(list[, col1][, col2])`](#list_sortlist-col1-col2) | Alias for `list_sort`. |
+| [`array_sort(list)`](#list_sortlist) | Alias for `list_sort`. |
 | [`array_to_string(list, delimiter)`](#array_to_stringlist-delimiter) | Concatenates list/array elements using an optional `delimiter`. |
 | [`array_to_string_comma_default(array)`](#array_to_string_comma_defaultarray) | Concatenates list/array elements with a comma delimiter. |
 | [`array_transform(list, lambda(x))`](#list_transformlist-lambdax) | Alias for `list_transform`. |
@@ -67,12 +67,12 @@ title: List Functions
 | [`contains(list, element)`](#containslist-element) | Returns `true` if the `list` contains the `element`. |
 | [`filter(list, lambda(x))`](#list_filterlist-lambdax) | Alias for `list_filter`. |
 | [`flatten(nested_list)`](#flattennested_list) | [Flattens](#flattening) a nested list by one level. |
-| [`generate_series(start[, stop][, step])`](#generate_seriesstart-stop-step) | Creates a list of values between `start` and `stop` - the stop parameter is inclusive. |
-| [`grade_up(list[, col1][, col2])`](#list_grade_uplist-col1-col2) | Alias for `list_grade_up`. |
+| [`generate_series(start, stop, step)`](#generate_seriesstart-stop-step) | Creates a list of values between `start` and `stop` - the stop parameter is inclusive. |
+| [`grade_up(list)`](#list_grade_uplist) | Alias for `list_grade_up`. |
 | [`len(list)`](#lengthlist) | Alias for `length`. |
 | [`length(list)`](#lengthlist) | Returns the length of the `list`. |
-| [`list_aggr(list, function_name, ...)`](#list_aggregatelist-function_name-) | Alias for `list_aggregate`. |
-| [`list_aggregate(list, function_name, ...)`](#list_aggregatelist-function_name-) | Executes the aggregate function `function_name` on the elements of `list`. See the [List Aggregates](#list-aggregates) section for more details. |
+| [`list_aggr(list, function_name)`](#list_aggregatelist-function_name) | Alias for `list_aggregate`. |
+| [`list_aggregate(list, function_name)`](#list_aggregatelist-function_name) | Executes the aggregate function `function_name` on the elements of `list`. See the [List Aggregates](#list-aggregates) section for more details. |
 | [`list_any_value(list)`](#list_any_valuelist) | Applies aggregate function [`any_value`]({% link docs/current/sql/functions/aggregates.md %}#general-aggregate-functions) to the `list`. |
 | [`list_append(list, element)`](#list_appendlist-element) | Appends `element` to `list`. |
 | [`list_apply(list, lambda(x))`](#list_transformlist-lambdax) | Alias for `list_transform`. |
@@ -97,7 +97,7 @@ title: List Functions
 | [`list_extract(list, index)`](#list_extractlist-index) | Extract the `index`th (1-based) value from the list. |
 | [`list_filter(list, lambda(x))`](#list_filterlist-lambdax) | Constructs a list from those elements of the input `list` for which the `lambda` function returns `true`. DuckDB must be able to cast the `lambda` function's return type to `BOOL`. The return type of `list_filter` is the same as the input list's. See [`list_filter` examples]({% link docs/current/sql/functions/lambda.md %}#list_filter-examples). |
 | [`list_first(list)`](#list_firstlist) | Applies aggregate function [`first`]({% link docs/current/sql/functions/aggregates.md %}#general-aggregate-functions) to the `list`. |
-| [`list_grade_up(list[, col1][, col2])`](#list_grade_uplist-col1-col2) | Works like [`list_sort`](#list_sortlist-col1-col2), but the results are the indexes that correspond to the position in the original list instead of the actual values. |
+| [`list_grade_up(list)`](#list_grade_uplist) | Works like [list_sort](#list_sortlist), but the results are the indexes that correspond to the position in the original list instead of the actual values. |
 | [`list_has(list, element)`](#list_containslist-element) | Alias for `list_contains`. |
 | [`list_has_all(list1, list2)`](#list_has_alllist1-list2) | Returns true if all elements of list2 are in list1. NULLs are ignored. |
 | [`list_has_any(list1, list2)`](#list_has_anylist1-list2) | Returns true if the lists have any element in common. NULLs are ignored. |
@@ -115,36 +115,36 @@ title: List Functions
 | [`list_mode(list)`](#list_modelist) | Applies aggregate function [`mode`]({% link docs/current/sql/functions/aggregates.md %}#general-aggregate-functions) to the `list`. |
 | [`list_negative_dot_product(list1, list2)`](#list_negative_inner_productlist1-list2) | Alias for `list_negative_inner_product`. |
 | [`list_negative_inner_product(list1, list2)`](#list_negative_inner_productlist1-list2) | Computes the negative inner product between two same-sized lists. |
-| [`list_pack(arg, ...)`](#list_valuearg-) | Alias for `list_value`. |
+| [`list_pack(any, ...)`](#list_valueany-) | Alias for `list_value`. |
 | [`list_position(list, element)`](#list_positionlist-element) | Returns the index of the `element` if the `list` contains the `element`. If the `element` is not found, it returns `NULL`. |
 | [`list_prepend(element, list)`](#list_prependelement-list) | Prepends `element` to `list`. |
 | [`list_product(list)`](#list_productlist) | Applies aggregate function [`product`]({% link docs/current/sql/functions/aggregates.md %}#general-aggregate-functions) to the `list`. |
-| [`list_reduce(list, lambda(x,y)[, initial_value])`](#list_reducelist-lambdaxy-initial_value) | Reduces all elements of the input `list` into a single scalar value by executing the `lambda` function on a running result and the next list element. The `lambda` function has an optional `initial_value` argument. See [`list_reduce` examples]({% link docs/current/sql/functions/lambda.md %}#list_reduce-examples). |
-| [`list_resize(list, size[[, value]])`](#list_resizelist-size-value) | Resizes the `list` to contain `size` elements. Initializes new elements with `value` or `NULL` if `value` is not set. |
+| [`list_reduce(list, lambda(x, y), initial_value)`](#list_reducelist-lambdax-y-initial_value) | Reduces all elements of the input `list` into a single scalar value by executing the `lambda` function on a running result and the next list element. The `lambda` function has an optional `initial_value` argument. See [`list_reduce` examples]({% link docs/current/sql/functions/lambda.md %}#list_reduce-examples). |
+| [`list_resize(list, size[, value])`](#list_resizelist-size-value) | Resizes the `list` to contain `size` elements. Initializes new elements with `value` or `NULL` if `value` is not set. |
 | [`list_reverse(list)`](#list_reverselist) | Reverses the `list`. |
-| [`list_reverse_sort(list[, col1])`](#list_reverse_sortlist-col1) | Sorts the elements of the list in reverse order. See the [Sorting Lists](#sorting-lists) section for more details about sorting order and `NULL` values. |
+| [`list_reverse_sort(list)`](#list_reverse_sortlist) | Sorts the elements of the list in reverse order. See the [Sorting Lists](#sorting-lists) section for more details about sorting order and `NULL` values. |
 | [`list_select(value_list, index_list)`](#list_selectvalue_list-index_list) | Returns a list based on the elements selected by the `index_list`. |
 | [`list_sem(list)`](#list_semlist) | Applies aggregate function [`sem`]({% link docs/current/sql/functions/aggregates.md %}#general-aggregate-functions) to the `list`. |
 | [`list_skewness(list)`](#list_skewnesslist) | Applies aggregate function [`skewness`]({% link docs/current/sql/functions/aggregates.md %}#general-aggregate-functions) to the `list`. |
 | [`list_slice(list, begin, end)`](#list_slicelist-begin-end) | Extracts a sublist or substring using [slice conventions]({% link docs/current/sql/functions/list.md %}#slicing). Negative values are accepted. |
 | [`list_slice(list, begin, end, step)`](#list_slicelist-begin-end-step) | list_slice with added step feature. |
-| [`list_sort(list[, col1][, col2])`](#list_sortlist-col1-col2) | Sorts the elements of the list. See the [Sorting Lists](#sorting-lists) section for more details about sorting order and `NULL` values. |
+| [`list_sort(list)`](#list_sortlist) | Sorts the elements of the list. See the [Sorting Lists](#sorting-lists) section for more details about sorting order and `NULL` values. |
 | [`list_stddev_pop(list)`](#list_stddev_poplist) | Applies aggregate function [`stddev_pop`]({% link docs/current/sql/functions/aggregates.md %}#general-aggregate-functions) to the `list`. |
 | [`list_stddev_samp(list)`](#list_stddev_samplist) | Applies aggregate function [`stddev_samp`]({% link docs/current/sql/functions/aggregates.md %}#general-aggregate-functions) to the `list`. |
 | [`list_string_agg(list)`](#list_string_agglist) | Applies aggregate function [`string_agg`]({% link docs/current/sql/functions/aggregates.md %}#general-aggregate-functions) to the `list`. |
 | [`list_sum(list)`](#list_sumlist) | Applies aggregate function [`sum`]({% link docs/current/sql/functions/aggregates.md %}#general-aggregate-functions) to the `list`. |
 | [`list_transform(list, lambda(x))`](#list_transformlist-lambdax) | Returns a list that is the result of applying the `lambda` function to each element of the input `list`. The return type is defined by the return type of the `lambda` function. See [`list_transform` examples]({% link docs/current/sql/functions/lambda.md %}#list_transform-examples). |
 | [`list_unique(list)`](#list_uniquelist) | Counts the unique elements of a `list`. |
-| [`list_value(arg, ...)`](#list_valuearg-) | Creates a LIST containing the argument values. |
+| [`list_value(any, ...)`](#list_valueany-) | Creates a LIST containing the argument values. |
 | [`list_var_pop(list)`](#list_var_poplist) | Applies aggregate function [`var_pop`]({% link docs/current/sql/functions/aggregates.md %}#general-aggregate-functions) to the `list`. |
 | [`list_var_samp(list)`](#list_var_samplist) | Applies aggregate function [`var_samp`]({% link docs/current/sql/functions/aggregates.md %}#general-aggregate-functions) to the `list`. |
 | [`list_where(value_list, mask_list)`](#list_wherevalue_list-mask_list) | Returns a list with the `BOOLEAN`s in `mask_list` applied as a mask to the `value_list`. |
 | [`list_zip(list_1, ..., list_n[, truncate])`](#list_ziplist_1--list_n-truncate) | Zips n `LIST`s to a new `LIST` whose length will be that of the longest list. Its elements are structs of n elements from each list `list_1`, …, `list_n`, missing elements are replaced with `NULL`. If `truncate` is set, all lists are truncated to the smallest list length. |
-| [`range(start[, stop][, step])`](#rangestart-stop-step) | Creates a list of values between `start` and `stop` - the stop parameter is exclusive. |
-| [`reduce(list, lambda(x,y)[, initial_value])`](#list_reducelist-lambdaxy-initial_value) | Alias for `list_reduce`. |
+| [`range(start, stop, step)`](#rangestart-stop-step) | Creates a list of values between `start` and `stop` - the stop parameter is exclusive. |
+| [`reduce(list, lambda(x, y), initial_value)`](#list_reducelist-lambdax-y-initial_value) | Alias for `list_reduce`. |
 | [`repeat(list, count)`](#repeatlist-count) | Repeats the `list` `count` number of times. |
 | [`unnest(list)`](#unnestlist) | Unnests a list by one level. Note that this is a special function that alters the cardinality of the result. See the [unnest page]({% link docs/current/sql/query_syntax/unnest.md %}) for more details. |
-| [`unpivot_list(arg, ...)`](#unpivot_listarg-) | Identical to list_value, but generated as part of unpivot for better error messages. |
+| [`unpivot_list(any, ...)`](#unpivot_listany-) | Identical to list_value, but generated as part of unpivot for better error messages. |
 
 <!-- markdownlint-enable MD056 -->
 
@@ -254,7 +254,7 @@ title: List Functions
 | **Example** | `flatten([[1, 2, 3], [4, 5]])` |
 | **Result** | `[1, 2, 3, 4, 5]` |
 
-#### `generate_series(start[, stop][, step])`
+#### `generate_series(start, stop, step)`
 
 <div class="nostroke_table"></div>
 
@@ -269,16 +269,16 @@ title: List Functions
 | **Description** | Returns the length of the `list`. |
 | **Example** | `length([1,2,3])` |
 | **Result** | `3` |
-| **Aliases** | `char_length`, `character_length`, `len` |
+| **Aliases** | `len`, `char_length`, `character_length` |
 
-#### `list_aggregate(list, function_name, ...)`
+#### `list_aggregate(list, function_name)`
 
 <div class="nostroke_table"></div>
 
 | **Description** | Executes the aggregate function `function_name` on the elements of `list`. See the [List Aggregates](#list-aggregates) section for more details. |
 | **Example** | `list_aggregate([1, 2, NULL], 'min')` |
 | **Result** | `1` |
-| **Aliases** | `aggregate`, `array_aggr`, `array_aggregate`, `list_aggr` |
+| **Aliases** | `array_aggregate`, `list_aggr`, `array_aggr`, `aggregate` |
 
 #### `list_any_value(list)`
 
@@ -369,7 +369,7 @@ title: List Functions
 | **Description** | Returns true if the list contains the element. |
 | **Example** | `list_contains([1, 2, NULL], 1)` |
 | **Result** | `true` |
-| **Aliases** | `array_contains`, `array_has`, `list_has` |
+| **Aliases** | `array_contains`, `list_has`, `array_has` |
 
 #### `list_cosine_distance(list1, list2)`
 
@@ -448,11 +448,11 @@ title: List Functions
 | **Example** | `list_first([3,3,9])` |
 | **Result** | `3` |
 
-#### `list_grade_up(list[, col1][, col2])`
+#### `list_grade_up(list)`
 
 <div class="nostroke_table"></div>
 
-| **Description** | Works like [`list_sort`](#list_sortlist-col1-col2), but the results are the indexes that correspond to the position in the original list instead of the actual values. |
+| **Description** | Works like [list_sort](#list_sortlist), but the results are the indexes that correspond to the position in the original list instead of the actual values. |
 | **Example** | `list_grade_up([3, 6, 1, 2])` |
 | **Result** | `[3, 4, 1, 2]` |
 | **Aliases** | `array_grade_up`, `grade_up` |
@@ -464,7 +464,7 @@ title: List Functions
 | **Description** | Returns true if all elements of list2 are in list1. NULLs are ignored. |
 | **Example** | `list_has_all([1, 2, 3], [2, 3])` |
 | **Result** | `true` |
-| **Aliases** | `<@`, `@>`, `array_has_all` |
+| **Aliases** | `array_has_all`, `@>`, `<@` |
 
 #### `list_has_any(list1, list2)`
 
@@ -473,7 +473,7 @@ title: List Functions
 | **Description** | Returns true if the lists have any element in common. NULLs are ignored. |
 | **Example** | `list_has_any([1, 2, 3], [2, 3, 4])` |
 | **Result** | `true` |
-| **Aliases** | `&&`, `array_has_any` |
+| **Aliases** | `array_has_any`, `&&` |
 
 #### `list_histogram(list)`
 
@@ -498,7 +498,7 @@ title: List Functions
 
 | **Description** | Returns a list of all the elements that exist in both `list1` and `list2`, without duplicates. |
 | **Example** | `list_intersect([1, 2, 3], [2, 3, 4])` |
-| **Result** | `[3, 2]` |
+| **Result** | `[2, 3]` |
 | **Alias** | `array_intersect` |
 
 #### `list_kurtosis(list)`
@@ -515,7 +515,7 @@ title: List Functions
 
 | **Description** | Applies aggregate function [`kurtosis_pop`]({% link docs/current/sql/functions/aggregates.md %}#general-aggregate-functions) to the `list`. |
 | **Example** | `list_kurtosis_pop([3,3,9])` |
-| **Result** | `-1.4999999999999978` |
+| **Result** | `-1.4999999999999907` |
 
 #### `list_last(list)`
 
@@ -581,7 +581,7 @@ title: List Functions
 | **Description** | Returns the index of the `element` if the `list` contains the `element`. If the `element` is not found, it returns `NULL`. |
 | **Example** | `list_position([1, 2, NULL], 2)` |
 | **Result** | `2` |
-| **Aliases** | `array_indexof`, `array_position`, `list_indexof` |
+| **Aliases** | `list_indexof`, `array_position`, `array_indexof` |
 
 #### `list_prepend(element, list)`
 
@@ -600,7 +600,7 @@ title: List Functions
 | **Example** | `list_product([3,3,9])` |
 | **Result** | `81.0` |
 
-#### `list_reduce(list, lambda(x,y)[, initial_value])`
+#### `list_reduce(list, lambda(x, y), initial_value)`
 
 <div class="nostroke_table"></div>
 
@@ -609,7 +609,7 @@ title: List Functions
 | **Result** | `6` |
 | **Aliases** | `array_reduce`, `reduce` |
 
-#### `list_resize(list, size[[, value]])`
+#### `list_resize(list, size[, value])`
 
 <div class="nostroke_table"></div>
 
@@ -627,7 +627,7 @@ title: List Functions
 | **Result** | `[2, 1, 6, 3]` |
 | **Alias** | `array_reverse` |
 
-#### `list_reverse_sort(list[, col1])`
+#### `list_reverse_sort(list)`
 
 <div class="nostroke_table"></div>
 
@@ -659,15 +659,21 @@ title: List Functions
 
 | **Description** | Applies aggregate function [`skewness`]({% link docs/current/sql/functions/aggregates.md %}#general-aggregate-functions) to the `list`. |
 | **Example** | `list_skewness([3,3,9])` |
-| **Result** | `1.7320508075688796` |
+| **Result** | `1.732050807568877` |
 
 #### `list_slice(list, begin, end)`
 
 <div class="nostroke_table"></div>
 
 | **Description** | Extracts a sublist or substring using [slice conventions]({% link docs/current/sql/functions/list.md %}#slicing). Negative values are accepted. |
-| **Example** | `list_slice([4, 5, 6], 2, 3)` |
+| **Example 1** | `list_slice([4, 5, 6], 2, 3)` |
 | **Result** | `[5, 6]` |
+| **Example 2** | `array_slice('DuckDB', 3, 4)` |
+| **Result** | `ck` |
+| **Example 3** | `array_slice('DuckDB', 3, NULL)` |
+| **Result** | `NULL` |
+| **Example 4** | `array_slice('DuckDB', 0, -3)` |
+| **Result** | `Duck` |
 | **Alias** | `array_slice` |
 
 #### `list_slice(list, begin, end, step)`
@@ -679,7 +685,7 @@ title: List Functions
 | **Result** | `[4, 6]` |
 | **Alias** | `array_slice` |
 
-#### `list_sort(list[, col1][, col2])`
+#### `list_sort(list)`
 
 <div class="nostroke_table"></div>
 
@@ -727,7 +733,7 @@ title: List Functions
 | **Description** | Returns a list that is the result of applying the `lambda` function to each element of the input `list`. The return type is defined by the return type of the `lambda` function. See [`list_transform` examples]({% link docs/current/sql/functions/lambda.md %}#list_transform-examples). |
 | **Example** | `list_transform([1, 2, 3], lambda x : x + 1)` |
 | **Result** | `[2, 3, 4]` |
-| **Aliases** | `apply`, `array_apply`, `array_transform`, `list_apply` |
+| **Aliases** | `array_transform`, `list_apply`, `array_apply`, `apply` |
 
 #### `list_unique(list)`
 
@@ -738,7 +744,7 @@ title: List Functions
 | **Result** | `3` |
 | **Alias** | `array_unique` |
 
-#### `list_value(arg, ...)`
+#### `list_value(any, ...)`
 
 <div class="nostroke_table"></div>
 
@@ -785,7 +791,7 @@ title: List Functions
 | **Result** | `[(1, 3, 5), (2, 4, 6)]` |
 | **Alias** | `array_zip` |
 
-#### `range(start[, stop][, step])`
+#### `range(start, stop, step)`
 
 <div class="nostroke_table"></div>
 
@@ -809,7 +815,7 @@ title: List Functions
 | **Example** | `unnest([1, 2, 3])` |
 | **Result** | Multiple rows: `'1'`, `'2'`, `'3'` |
 
-#### `unpivot_list(arg, ...)`
+#### `unpivot_list(any, ...)`
 
 <div class="nostroke_table"></div>
 
